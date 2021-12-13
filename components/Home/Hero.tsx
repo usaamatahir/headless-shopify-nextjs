@@ -6,11 +6,11 @@ const Hero = () => {
       <div className="lg:flex items-center justify-between">
         <div className="lg:w-1/3">
           <h1 className="text-4xl font-semibold leading-9 text-gray-800">
-            Denim Collection'21
+            Denim Collection 2021
           </h1>
           <p className="text-base leading-6 mt-4 text-gray-600">
             Start of the new year by hitting the ground, looking fabulous in the
-            new Denim Collection'21.
+            new Denim Collection 2021.
           </p>
           <button
             aria-label="view catalogue"
