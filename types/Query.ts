@@ -5,25 +5,25 @@ interface Images {
   };
 }
 
-interface Variants {
+export interface Variant {
   node: {
     selectedOptions: {
       name: string;
       value: string;
     }[];
     image: {
-      src: string;
+      originalSrc: string;
       altText: string;
     };
     title: string;
     id: string;
-    priveV2: {
+    priceV2: {
       amount: number;
       currencyCode: string;
     };
   };
 }
-interface Product {
+export interface Product {
   id: string;
   title: string;
   handle: string;
@@ -38,7 +38,7 @@ interface Product {
     value: string;
   };
   variants: {
-    edges: Variants[];
+    edges: Variant[];
   };
 }
 
@@ -48,8 +48,9 @@ export interface ProductsList {
     title: string;
     handle: string;
     priceRange: {
-      maxVariantPrice: {
+      minVariantPrice: {
         amount: number;
+        currencyCode: string;
       };
     };
     images: {

@@ -34,9 +34,9 @@ async function ShopifyData(query: string) {
 }
 
 // Get all products from Shopify
-export async function getAllProducts() {
+export async function getAllProducts(quantity: number) {
   const query = `{
-        products(first: 25) {
+        products(first: ${quantity ?? 25}) {
           edges {
             node {
               id
@@ -45,6 +45,7 @@ export async function getAllProducts() {
               priceRange {
                 minVariantPrice {
                   amount
+                  currencyCode
                 }
               }
               images(first: 5) {
@@ -65,6 +66,7 @@ export async function getAllProducts() {
 
   return response.data.products.edges ?? [];
 }
+
 // Get a product by url
 export async function getProductByHandle(handle: string) {
   const query = `{
@@ -101,6 +103,7 @@ export async function getProductByHandle(handle: string) {
                 id
                 priceV2 {
                   amount
+                  currencyCode
                 }
               }
             }
@@ -161,4 +164,66 @@ export async function updateCheckout(id: string, lineItems: LineItem[]) {
   const response: updateCheckoutResponse = await ShopifyData(query);
 
   return response.data.checkoutLineItemsReplace.checkout ?? null;
+}
+
+export async function recursiveCatalog(cursor = "", initialRequest = true) {
+  let data;
+
+  if (cursor !== "") {
+    const query = `{
+      products(after: "${cursor}", first: 250) {
+        edges {
+          cursor
+          node {
+            id
+            handle
+          }
+        }
+        pageInfo {
+          hasNextPage
+        }
+      }
+    }`;
+
+    const response = await ShopifyData(query);
+    data = response.data.products.edges ? response.data.products.edges : [];
+
+    if (response.data.products.pageInfo.hasNextPage) {
+      const num = response.data.products.edges.length;
+      const cursor = response.data.products.edges[num - 1].cursor;
+      console.log("Cursor: ", cursor);
+
+      return data.concat(await recursiveCatalog(cursor));
+    } else {
+      return data;
+    }
+  } else {
+    const query = `{
+      products(first: 250) {
+        edges {
+          cursor
+          node {
+            id
+            handle
+          }
+        }
+        pageInfo {
+          hasNextPage
+        }
+      }
+    }
+    `;
+
+    const response = await ShopifyData(query);
+    data = response.data.products.edges ? response.data.products.edges : [];
+
+    if (response.data.products.pageInfo.hasNextPage) {
+      const num = response.data.products.edges.length;
+      const cursor = response.data.products.edges[num - 1].cursor;
+
+      return data.concat(await recursiveCatalog(cursor));
+    } else {
+      return data;
+    }
+  }
 }
