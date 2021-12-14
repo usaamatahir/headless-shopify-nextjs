@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import { getProductByHandle, recursiveCatalog } from "../../lib/shopifyData";
 import { Product, Variant } from "../../types/Query";
@@ -6,7 +7,6 @@ interface ProductProps {
   product: Product;
 }
 const Product: FC<ProductProps> = ({ product }) => {
-  console.log(product);
   const [primaryImage, setPrimaryImage] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [currency, setCurrency] = useState<string>("");
@@ -21,16 +21,21 @@ const Product: FC<ProductProps> = ({ product }) => {
     setPrice(Number(variant.node.priceV2.amount));
     setCurrency(variant.node.priceV2.currencyCode);
   }
+  console.log(product);
 
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <img
-            alt="ecommerce"
-            className="lg:w-1/2 w-full h-auto object-contain rounded border border-gray-200"
-            src={primaryImage}
-          />
+        <div className="w-full lg:w-4/5 h-3/4 mx-auto flex flex-wrap">
+          <div className="relative w-full md:w-1/2 h-96 bg-gray-200 aspect-auto rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
+            <Image
+              src={primaryImage || product.images.edges[0].node.src}
+              alt="ecommerce"
+              objectFit="cover"
+              layout="fill"
+              priority
+            />
+          </div>
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
               {product.title}

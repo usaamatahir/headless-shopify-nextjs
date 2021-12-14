@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -21,23 +22,33 @@ const Hero = () => {
         </div>
         <div className="lg:w-7/12 lg:mt-0 mt-8">
           <div className="w-full h-full bg-red-200">
-            <img
-              src="https://media.istockphoto.com/photos/this-one-match-perfect-with-me-picture-id1293366109?b=1&k=20&m=1293366109&s=170667a&w=0&h=2z_h2WlM3291IRKFXrdmtObnCt93rNNdNN6mqvnKD1I="
-              alt="apartment design"
-              className="w-full h-60 object-cover sm:block"
-            />
+            <div className="relative w-full h-80 object-contain sm:block">
+              <Image
+                src="https://i.ibb.co/ZhFMkfH/Businessman-trying-suit-in-store.jpg"
+                alt="apartment design"
+                layout="fill"
+                objectFit="cover"
+                priority
+              />
+            </div>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 lg:gap-8 gap-6 lg:mt-8 md:mt-6 mt-4">
-            <img
-              src="https://media.istockphoto.com/photos/interior-of-clothing-store-picture-id1023612090?k=20&m=1023612090&s=612x612&w=0&h=OEvH3MRPMPMa7aFKV5OExSlDndvh2YZ87QZHCLXIvJo="
-              className="w-full h-60 object-cover hidden sm:block"
-              alt="kitchen"
-            />
-            <img
-              src="https://media.istockphoto.com/photos/close-up-of-colorful-tshirts-on-hangers-apparel-background-picture-id1170635789?b=1&k=20&m=1170635789&s=170667a&w=0&h=5CZtqZRGBRkQtZw3YIRotRDu4OROZPSkXeyzaMs-xYE="
-              className="w-full h-60 object-cover hidden sm:block"
-              alt="sitting room"
-            />
+            <div className="relative w-full h-60 object-cover sm:block">
+              <Image
+                src="https://i.ibb.co/t82Bz7m/Interior-of-fashion-clothing-store-for-women.jpg"
+                alt="Interior-of-fashion-clothing-store-for-women"
+                layout="fill"
+                priority
+              />
+            </div>
+            <div className="relative w-full h-60 object-cover sm:block">
+              <Image
+                src="https://i.ibb.co/mR736T4/Close-up-of-Colorful-t-shirts-on-hangers-apparel-background.jpg"
+                alt="Close-up-of-Colorful-t-shirts-on-hangers-apparel-background"
+                layout="fill"
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>
