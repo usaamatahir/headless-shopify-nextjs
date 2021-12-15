@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
+import { CartContext } from "../../context/shopContext";
 import { getProductByHandle, recursiveCatalog } from "../../lib/shopifyData";
 import { Product, Variant } from "../../types/Query";
 
@@ -7,6 +8,7 @@ interface ProductProps {
   product: Product;
 }
 const Product: FC<ProductProps> = ({ product }) => {
+  const { addToCart } = useContext(CartContext);
   const [primaryImage, setPrimaryImage] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [currency, setCurrency] = useState<string>("");
@@ -21,8 +23,49 @@ const Product: FC<ProductProps> = ({ product }) => {
     setPrice(Number(variant.node.priceV2.amount));
     setCurrency(variant.node.priceV2.currencyCode);
   }
-  console.log(product);
 
+  const allVariantOptions = product.variants.edges?.map((variant) => {
+    const allOptions = {};
+
+    variant.node.selectedOptions.map((item) => {
+      allOptions[item.name] = item.value;
+    });
+
+    return {
+      id: variant.node.id,
+      title: product.title,
+      handle: product.handle,
+      image: variant.node.image?.originalSrc,
+      options: allOptions,
+      variantTitle: variant.node.title,
+      variantPrice: variant.node.priceV2.amount,
+      variantQuantity: 1,
+    };
+  });
+
+  const defaultValues = {};
+  product.options.map((item) => {
+    defaultValues[item.name] = item.values[0];
+  });
+
+  const [selectedVariant, setSelectedVariant] = useState(allVariantOptions[0]);
+  const [selectedOptions, setSelectedOptions] = useState(defaultValues);
+  function setOptions(name: string, value: string) {
+    setSelectedOptions((prevState) => {
+      return { ...prevState, [name]: value };
+    });
+
+    const selection = {
+      ...selectedOptions,
+      [name]: value,
+    };
+
+    allVariantOptions.map((item) => {
+      if (JSON.stringify(item.options) === JSON.stringify(selection)) {
+        setSelectedVariant(item);
+      }
+    });
+  }
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-24 mx-auto">
@@ -68,7 +111,10 @@ const Product: FC<ProductProps> = ({ product }) => {
               <span className="title-font font-medium text-2xl text-gray-900">
                 {currency} {price}
               </span>
-              <button className="flex ml-auto text-white bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-900 rounded">
+              <button
+                className="flex ml-auto text-white bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-900 rounded"
+                onClick={() => addToCart(selectedVariant)}
+              >
                 Add To Cart
               </button>
             </div>

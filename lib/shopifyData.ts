@@ -5,9 +5,8 @@ import {
 } from "./../types/Query";
 import { allProductsResponse, productByHandleResponse } from "../types/Query";
 
-const domain = process.env.STORE_DOMAIN_NAME;
-const accessToken = process.env.STORE_ACCESS_TOKEN;
-
+const domain = process.env.NEXT_PUBLIC_STORE_DOMAIN_NAME;
+const accessToken = process.env.NEXT_PUBLIC_STORE_ACCESS_TOKEN;
 async function ShopifyData(query: string) {
   const URL = `https://${domain}/api/2021-10/graphql.json`;
 
@@ -129,8 +128,7 @@ export async function createCheckout(id: string, quantity: number) {
   }`;
 
   const response: createCheckoutResponse = await ShopifyData(query);
-
-  return response.data.createCheckout.checkout ?? null;
+  return response.data.checkoutCreate.checkout ?? null;
 }
 
 // Update a checkout

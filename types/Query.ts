@@ -35,8 +35,8 @@ export interface Product {
   options: {
     id: string;
     name: string;
-    value: string;
-  };
+    values: string[];
+  }[];
   variants: {
     edges: Variant[];
   };
@@ -89,7 +89,7 @@ export type productByHandleResponse = {
 
 export type createCheckoutResponse = {
   data: {
-    createCheckout: {
+    checkoutCreate: {
       checkout: {
         id: string;
         webUrl: string;

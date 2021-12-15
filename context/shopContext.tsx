@@ -46,11 +46,13 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
   }, []);
 
   async function addToCart(newItem: LineItem) {
+    console.log("Running addToCart", newItem);
     setCartOpen(true);
-
+    console.log(cart);
     if (cart.length === 0) {
       setCart([newItem]);
 
+      console.log("running createCheckout");
       const checkout = await createCheckout(
         newItem.id,
         newItem.variantQuantity
@@ -58,7 +60,6 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
 
       setCheckoutId(checkout.id);
       setCheckoutUrl(checkout.webUrl);
-
       localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]));
     } else {
       let newCart: LineItem[] = [];
@@ -77,6 +78,7 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
       }
 
       setCart(newCart);
+      console.log("running updateCheckout");
       const newCheckout = await updateCheckout(checkoutId, newCart);
       localStorage.setItem(
         "checkout_id",
