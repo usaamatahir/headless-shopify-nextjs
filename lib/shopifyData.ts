@@ -189,7 +189,6 @@ export async function recursiveCatalog(cursor = "", initialRequest = true) {
     if (response.data.products.pageInfo.hasNextPage) {
       const num = response.data.products.edges.length;
       const cursor = response.data.products.edges[num - 1].cursor;
-      console.log("Cursor: ", cursor);
 
       return data.concat(await recursiveCatalog(cursor));
     } else {

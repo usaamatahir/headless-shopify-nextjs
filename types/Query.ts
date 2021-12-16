@@ -65,8 +65,14 @@ type Products = {
   };
 };
 export type LineItem = {
+  handle: string;
   id: string;
+  image: string;
+  options: {};
+  title: string;
+  variantPrice: number;
   variantQuantity: number;
+  variantTitle: string;
 };
 
 export type LineItems = {

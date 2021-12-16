@@ -36,9 +36,9 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
       const cartObject = JSON.parse(localStorage.checkout_id);
 
       if (cartObject[0].id) {
-        setCart([cartObject[0]]);
+        setCart(cartObject[0]);
       } else if (cartObject[0].length > 0) {
-        setCart([...[cartObject[0]]]);
+        setCart([...cartObject[0]]);
       }
       setCheckoutId(cartObject[1].id);
       setCheckoutUrl(cartObject[1].webUrl);
@@ -46,13 +46,10 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
   }, []);
 
   async function addToCart(newItem: LineItem) {
-    console.log("Running addToCart", newItem);
     setCartOpen(true);
-    console.log(cart);
     if (cart.length === 0) {
       setCart([newItem]);
 
-      console.log("running createCheckout");
       const checkout = await createCheckout(
         newItem.id,
         newItem.variantQuantity
@@ -60,7 +57,10 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
 
       setCheckoutId(checkout.id);
       setCheckoutUrl(checkout.webUrl);
-      localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]));
+      localStorage.setItem(
+        "checkout_id",
+        JSON.stringify([[newItem], checkout])
+      );
     } else {
       let newCart: LineItem[] = [];
       let added = false;
@@ -78,7 +78,6 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
       }
 
       setCart(newCart);
-      console.log("running updateCheckout");
       const newCheckout = await updateCheckout(checkoutId, newCart);
       localStorage.setItem(
         "checkout_id",
