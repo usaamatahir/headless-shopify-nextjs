@@ -1,20 +1,20 @@
 import { FC } from "react";
 import Hero from "../components/Home/Hero";
-import Products from "../components/Home/Products";
+import ProductsList from "../components/Home/Products";
 import SEO from "../components/SEO";
 import { getAllProducts } from "../lib/shopifyData";
-import { ProductsList } from "../types/Query";
+import { IProductsList } from "../types/Query";
 
 export interface HomePageProps {
-  products: ProductsList[];
+  products: IProductsList[];
 }
 
 const Home: FC<HomePageProps> = ({ products }) => {
   return (
     <div>
-      <SEO />
+      <SEO title="Home" />
       <Hero />
-      <Products products={products} />
+      <ProductsList products={products} />
     </div>
   );
 };

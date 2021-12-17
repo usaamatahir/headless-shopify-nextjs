@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
+import SEO from "../../components/SEO";
 import { CartContext } from "../../context/shopContext";
 import { getProductByHandle, recursiveCatalog } from "../../lib/shopifyData";
 import { Product, Variant } from "../../types/Query";
@@ -8,7 +9,7 @@ interface ProductProps {
   product: Product;
 }
 const Product: FC<ProductProps> = ({ product }) => {
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, cartOpen } = useContext(CartContext);
   const [primaryImage, setPrimaryImage] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [currency, setCurrency] = useState<string>("");
@@ -54,7 +55,6 @@ const Product: FC<ProductProps> = ({ product }) => {
     setSelectedOptions((prevState) => {
       return { ...prevState, [name]: value };
     });
-
     const selection = {
       ...selectedOptions,
       [name]: value,
@@ -68,6 +68,7 @@ const Product: FC<ProductProps> = ({ product }) => {
   }
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
+      <SEO title={product.title} />
       <div className="container px-5 py-24 mx-auto">
         <div className="w-full lg:w-4/5 h-3/4 mx-auto flex flex-wrap">
           <div className="relative w-full md:w-1/2 h-96 bg-gray-200 aspect-auto rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
@@ -85,23 +86,49 @@ const Product: FC<ProductProps> = ({ product }) => {
             </h1>
             <p className="leading-relaxed">{product.description}</p>
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-              {product.variants.edges.length > 1 && (
+              {product.options.length >= 1 && (
                 <div className="flex flex-col items-start">
-                  <span className="mr-3">Variants</span>
+                  <span className="mr-3 mb-3 font-bold text-gray-900">
+                    Variants
+                  </span>
                   <div className="flex items-center justify-between">
-                    {product.variants.edges.map((variant, index) => (
-                      <div
-                        className="flex flex-col mr-2"
-                        key={index}
-                        onClick={() => changeVariant(variant)}
-                      >
-                        <span>{variant.node.title}</span>
-                        <img
-                          src={variant.node.image.originalSrc}
-                          alt={variant.node.image.altText}
-                          className="w-28 h-28 mb-2 object-contain"
-                        />
-                      </div>
+                    {product.options.map(({ id, name, values }, index) => (
+                      <fieldset className="mt-3" key={index}>
+                        <legend className="text-xl font-semibold">
+                          {name}
+                        </legend>
+                        <div className="inline-flex items-center flex-wrap">
+                          {values.map((value) => {
+                            const id = `option-${name}-${value}`;
+                            const checked = selectedOptions[name] === value;
+
+                            return (
+                              <label key={id} htmlFor={id}>
+                                <input
+                                  className="sr-only"
+                                  type="radio"
+                                  id={id}
+                                  name={`option-${name}`}
+                                  value={value}
+                                  checked={checked}
+                                  onChange={() => {
+                                    setOptions(name, value);
+                                  }}
+                                />
+                                <div
+                                  className={`p-2 mt-3 text-lg rounded-full block cursor-pointer mr-3 ${
+                                    checked
+                                      ? "text-white bg-gray-900"
+                                      : "text-gray-900 bg-gray-200"
+                                  }`}
+                                >
+                                  <span className="px-2">{value}</span>
+                                </div>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </fieldset>
                     ))}
                   </div>
                 </div>
@@ -114,6 +141,7 @@ const Product: FC<ProductProps> = ({ product }) => {
               <button
                 className="flex ml-auto text-white bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-900 rounded"
                 onClick={() => addToCart(selectedVariant)}
+                disabled={cartOpen}
               >
                 Add To Cart
               </button>

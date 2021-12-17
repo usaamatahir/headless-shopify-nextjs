@@ -3,7 +3,7 @@ import Link from "next/link";
 import { HomePageProps } from "../../pages";
 import Image from "next/image";
 
-const Products: FC<HomePageProps> = ({ products }) => {
+const ProductsList: FC<HomePageProps> = ({ products }) => {
   return (
     <div className="bg-white font-sans">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -17,7 +17,7 @@ const Products: FC<HomePageProps> = ({ products }) => {
               <div className="relative w-full bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 h-80 ">
                 <Image
                   src={product.node.images.edges[0].node.src}
-                  alt={product.node.images.edges[0].node.altText}
+                  alt={product.node.title}
                   objectFit="cover"
                   objectPosition="center"
                   layout="fill"
@@ -28,10 +28,7 @@ const Products: FC<HomePageProps> = ({ products }) => {
                 <div>
                   <h3 className="text-base font-semibold text-gray-800">
                     <Link href={`/product/${product.node.handle}`}>
-                      <a href={`/product/${product.node.handle}`}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {product.node.title}
-                      </a>
+                      <a>{product.node.title}</a>
                     </Link>
                   </h3>
                 </div>
@@ -48,4 +45,4 @@ const Products: FC<HomePageProps> = ({ products }) => {
   );
 };
 
-export default Products;
+export default ProductsList;

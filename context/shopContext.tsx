@@ -84,9 +84,11 @@ const ShopProvider: FC<ShopProviderProps> = ({ children }) => {
         JSON.stringify([newCart, newCheckout])
       );
     }
+    setCartOpen(false);
   }
 
   async function removeCartItem(itemToRemove: string) {
+    setCartOpen(true);
     const updatedCart = cart.filter((item) => item.id !== itemToRemove);
 
     setCart(updatedCart);

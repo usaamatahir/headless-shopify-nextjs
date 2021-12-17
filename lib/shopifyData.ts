@@ -5,8 +5,8 @@ import {
 } from "./../types/Query";
 import { allProductsResponse, productByHandleResponse } from "../types/Query";
 
-const domain = process.env.NEXT_PUBLIC_STORE_DOMAIN_NAME;
-const accessToken = process.env.NEXT_PUBLIC_STORE_ACCESS_TOKEN;
+const domain = process.env.STORE_DOMAIN_NAME;
+const accessToken = process.env.STORE_ACCESS_TOKEN;
 async function ShopifyData(query: string) {
   const URL = `https://${domain}/api/2021-10/graphql.json`;
 
@@ -33,9 +33,9 @@ async function ShopifyData(query: string) {
 }
 
 // Get all products from Shopify
-export async function getAllProducts(quantity: number) {
+export async function getAllProducts(quantity?: number) {
   const query = `{
-        products(first: ${quantity ?? 25}) {
+        products(first: ${quantity ?? 100}) {
           edges {
             node {
               id

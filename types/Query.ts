@@ -42,7 +42,7 @@ export interface Product {
   };
 }
 
-export interface ProductsList {
+export interface IProductsList {
   node: {
     id: string;
     title: string;
@@ -61,7 +61,7 @@ export interface ProductsList {
 
 type Products = {
   products: {
-    edges: ProductsList[];
+    edges: IProductsList[];
   };
 };
 export type LineItem = {

@@ -1,24 +1,27 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
     <div className="lg:px-20 md:px-6 px-4 md:py-12 py-8">
       <div className="lg:flex items-center justify-between">
-        <div className="lg:w-1/3">
+        <div className="flex-grow">
           <h1 className="text-4xl font-semibold leading-9 text-gray-800">
             Denim Collection 2021
           </h1>
-          <p className="text-base leading-6 mt-4 text-gray-600">
+          <p className="text-base leading-6 mt-4 text-gray-600 max-w-md mb-5">
             Start of the new year by hitting the ground, looking fabulous in the
             new Denim Collection 2021.
           </p>
-          <button
-            aria-label="view catalogue"
-            className="focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 focus:outline-none mt-6 md:mt-8 text-base font-semibold leading-none text-gray-800 flex items-center hover:bg-gray-900 hover:text-white bg-gray-50 px-5 py-2 rounded-2xl border border-gray-900"
-          >
-            Explore collection
-          </button>
+          <Link href="/products">
+            <a
+              aria-label="explore collection"
+              className="border border-solid border-gray-900 rounded-3xl py-2 px-6 text-white bg-gray-800 hover:bg-gray-900 mt-10"
+            >
+              Explore collection
+            </a>
+          </Link>
         </div>
         <div className="lg:w-7/12 lg:mt-0 mt-8">
           <div className="w-full h-full bg-red-200">
