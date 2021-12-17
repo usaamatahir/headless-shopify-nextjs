@@ -13,9 +13,12 @@ const ProductsList: FC<HomePageProps> = ({ products }) => {
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
-            <Link href={`/product/${product.node.handle}`}>
+            <Link
+              href={`/product/${product.node.handle}`}
+              key={product.node.id}
+            >
               <a>
-                <div key={product.node.id} className="group relative">
+                <div className="group relative">
                   <div className="relative w-full bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 h-80 ">
                     <Image
                       src={product.node.images.edges[0].node.src}
