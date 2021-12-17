@@ -13,31 +13,35 @@ const ProductsList: FC<HomePageProps> = ({ products }) => {
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
-            <div key={product.node.id} className="group relative">
-              <div className="relative w-full bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 h-80 ">
-                <Image
-                  src={product.node.images.edges[0].node.src}
-                  alt={product.node.title}
-                  objectFit="cover"
-                  objectPosition="center"
-                  layout="fill"
-                  priority
-                />
-              </div>
-              <div className="mt-4 flex justify-between">
-                <div>
-                  <h3 className="text-base font-semibold text-gray-800">
-                    <Link href={`/product/${product.node.handle}`}>
-                      <a>{product.node.title}</a>
-                    </Link>
-                  </h3>
+            <Link href={`/product/${product.node.handle}`}>
+              <a>
+                <div key={product.node.id} className="group relative">
+                  <div className="relative w-full bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 h-80 ">
+                    <Image
+                      src={product.node.images.edges[0].node.src}
+                      alt={product.node.title}
+                      objectFit="cover"
+                      objectPosition="center"
+                      layout="fill"
+                      priority
+                    />
+                  </div>
+                  <div className="mt-4 flex justify-between">
+                    <div>
+                      <h3 className="text-base font-semibold text-gray-800">
+                        <Link href={`/product/${product.node.handle}`}>
+                          <a>{product.node.title}</a>
+                        </Link>
+                      </h3>
+                    </div>
+                    <p className="text-sm font-medium text-gray-900">
+                      {product.node.priceRange.minVariantPrice.currencyCode}{" "}
+                      {Number(product.node.priceRange.minVariantPrice.amount)}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-sm font-medium text-gray-900">
-                  {product.node.priceRange.minVariantPrice.currencyCode}{" "}
-                  {Number(product.node.priceRange.minVariantPrice.amount)}
-                </p>
-              </div>
-            </div>
+              </a>
+            </Link>
           ))}
         </div>
       </div>
