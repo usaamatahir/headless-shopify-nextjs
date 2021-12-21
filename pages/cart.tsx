@@ -1,19 +1,11 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/shopContext";
-import {
-  PlusIcon,
-  MinusIcon,
-  ChevronLeftIcon,
-  ArrowNarrowLeftIcon,
-} from "@heroicons/react/solid";
-import { useRouter } from "next/router";
+import { ArrowNarrowLeftIcon } from "@heroicons/react/solid";
 import SEO from "../components/SEO";
-import { ChevronUpIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 
 const Cart = () => {
   const { cart, checkoutUrl, removeCartItem } = useContext(CartContext);
-  const router = useRouter();
 
   return (
     <div>
@@ -66,7 +58,6 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="flex justify-center w-1/5">
-                  <PlusIcon className="w-6 h-6 object-contain cursor-pointer" />
                   <label>
                     <input
                       className="mx-2 border text-center w-8"
@@ -74,7 +65,6 @@ const Cart = () => {
                       defaultValue={item.variantQuantity}
                     />
                   </label>
-                  <MinusIcon className="w-6 h-6 object-contain cursor-pointer" />
                 </div>
                 <span className="text-center w-1/5 font-semibold text-sm">
                   $400.00

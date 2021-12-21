@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="py-8 w-full bg-gray-900 text-white text-center flex items-center justify-between px-6">
+    <div className="absolute py-8 w-full bg-gray-900 text-white text-center flex items-center justify-between px-6 bottom-0">
       <Link href="https://usamatahir.netlify.app">
         <a
           className="hover:text-gray-200 text-base leading-4 mt-6 cursor-pointer"
